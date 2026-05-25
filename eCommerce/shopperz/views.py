@@ -6,7 +6,6 @@ handling customer shopping cart operations, checkout, and review submission.
 """
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db import transaction
@@ -654,10 +653,10 @@ def submit_review(request, product_name):
 @permission_classes([IsAuthenticated])
 def view_stores(request):
     # Fetch all stores with the products
-    stores = Store.objects.prefetch_related('products').all()
+    stores = Store.objects.prefetch_related('products__reviews').all()
 
     serializer = StoreSerializer(stores, many=True)  # Serialize the data
-    return JsonResponse(data=serializer.data, safe=False)
+    return Response(serializer.data)
 
 
 @api_view(['GET'])
@@ -668,7 +667,7 @@ def view_products(request):
 
     serializer = ProductSerializer(products, many=True)
 
-    return JsonResponse(data=serializer.data, safe=False)
+    return Response(serializer.data)
 
 
 @api_view(['POST'])
@@ -707,6 +706,6 @@ def add_product(request, store_name):
     serializer = ProductSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save(store=store)
-        return JsonResponse(serializer.data, status=201)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
