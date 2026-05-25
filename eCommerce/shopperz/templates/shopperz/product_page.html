@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Product Details - SHopperz{% endblock %}
+{% block content %}
+    <h1>Product Page</h1>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    {% if product %}
+        <h2>{{ product.name }}</h2>
+        <p><strong>Description:</strong> {{ product.description }}</p>
+        <p><strong>Price:</strong> R{{ product.price }}</p>
+        <p><strong>Stock:</strong> {{ product.stock }}</p>
+        <br>
+        
+        <!-- Display review form -->
+        {% if user.is_authenticated %}
+            {% if user.groups.all.0.name == 'Buyers' %}
+                <h3>Leave a Review</h3>
+                <form method="POST" action="{% url 'shopperz:submit_review' product.name %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Post Review</button>
+                </form>
+            {% endif %}
+        {% else %}
+            <p><a href="{% url 'store_front:login' %}">Log in</a> to leave a review.</p>
+        {% endif %}
+
+        <hr>
+
+        <!-- Display Existing reviews -->
+        <h3>Customer Reviews</h3>
+        {% for review in product.reviews.all %}
+            <div id="review">
+                <strong>{{ review.user.username }}</strong>
+                {% if review.is_verified %}
+                    <span style="color: green;">[Verified Purchase]</span>
+                {% else %}
+                    <span style="color: gray;">[Unverified Purchase]</span>
+                {% endif %}
+                <span>Rating: {{review.rating }}/5</span>
+                <p>{{ review.content }}</p>
+            </div>
+        {% empty %}
+            <p>No reviews yet. Be the first to review!</p>
+        {% endfor %}
+    {% else %}
+        <form method="POST">
+            {% csrf_token %}
+            <label for="product">Enter product name:</label>
+            <input type="text" id="product" name="product" required />
+            <button type="submit">View Product</button>
+        </form>
+    {% endif %}
+{% endblock %}

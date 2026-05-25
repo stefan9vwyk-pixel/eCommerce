@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+    <!-- Greet the user using their logged-in username -->
+    <h1>Welcome, {{ request.user.username }}!</h1>
+
+    <p>You are now logged in.</p>
+    <div style="margin-top: 20px;">
+        {% if user.groups.all.0.name == 'Vendors' %}
+            <a href="{% url 'shopperz:vendor_dashboard' %}">
+                <button>Go to Vendor Dashboard</button>
+            </a>
+        {% else %}
+            <a href="{% url 'shopperz:main_cart_page' %}">
+                <button>Go to Cart</button>
+            </a>
+        {% endif %}
+        <form action="{% url 'store_front:logout' %}" method="POST" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+{% endblock %}

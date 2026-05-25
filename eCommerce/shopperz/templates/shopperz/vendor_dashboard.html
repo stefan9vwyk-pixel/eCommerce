@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Your Stores</h1>
+        <a href="{% url 'shopperz:create_store' %}" class="btn btn-primary">
+            <span>&#10010;</span> Create New Store
+        </a>
+    </div>
+
+    <div class="row">
+        {% for store in stores %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ store.name }}</h5>
+                    <p class="card-text text-muted">{{ store.description|truncatewords:15 }}</p>
+                    <p class="card-text text-muted">{{ store.products_count }}</p>
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'shopperz:store_detail' store.id %}" class="btn btn-sm btn-outline-info">View Products</a>
+                        <div>
+                            <a href="{% url 'shopperz:update_store' store.id %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                            <a href="{% url 'shopperz:delete_store' store.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>You haven't created any stores yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

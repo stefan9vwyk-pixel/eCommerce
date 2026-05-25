@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Shopping cart - Shopperz{% endblock %}
+{% block content %}
+    <h1>Your Shopping Cart</h1>
+
+    {% if cart %}
+        <table border="1" cellpadding="10" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.product.description }}</td>
+                        <td>R{{ item.product.price }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>R{{ item.subtotal }}</td>
+                        <td>
+                            <!-- Remove individual item form -->
+                            <form action="{% url 'shopperz:remove_item' item.product.id %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" style="color: #dc3545; background: none; border: 1px solid #dc3545; cursor: pointer; padding: 2px 5px;">
+                                    Remove
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <p><strong>Total Items:</strong> {{ cart|length }}</p>
+        <p><strong>Total Price:</strong> R{{ total_price }}</p>
+
+                <!-- New Action Buttons -->
+        <div style="margin-top: 20px; display: flex; gap: 10px;">
+            <form action="{% url 'shopperz:checkout' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" style="background-color: #28a745; color: white; padding: 10px 20px; border: none; cursor: pointer;">
+                    Proceed to Checkout
+                </button>
+            </form>
+
+            <form action="{% url 'shopperz:products_list' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" style="background-color: #2b2eb4; color: white; padding: 10px 20px; border: none; cursor: pointer;">
+                    Continue Shopping
+                </button>
+            </form>
+
+            <form action="{% url 'shopperz:clear_cart' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" style="background-color: #dc3545; color: white; padding: 10px 20px; border: none; cursor: pointer;" 
+                        onclick="return confirm('Are you sure you want to clear your cart?')">
+                    Clear Cart
+                </button>
+            </form>
+        </div>
+    {% else %}
+        <p>Your cart is empty.</p>
+            <form action="{% url 'shopperz:products_list' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" style="background-color: #2b2eb4; color: white; padding: 10px 20px; border: none; cursor: pointer;">
+                    Continue Shopping
+                </button>
+            </form>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}
+    {% if product %}Edit {{ product.name }}
+    {% else %}Add New Product
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm border-0 mx-auto" style="max-width: 600px;">
+        <div class="card-header bg-dark text-white p-3">
+            <h4 class="mb-0">
+                <i class="fas fa-box-open me-2"></i>
+                {% if product %}Edit Product{% else %}Add New Product to {{ store.name }}{% endif %}
+            </h4>
+        </div>
+        <div class="card-body p-4">
+            <form method="POST">
+                {% csrf_token %}
+                
+                <!-- Product Name -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Product Name</label>
+                    <input type="text" name="name" class="form-control" 
+                           value="{{ product.name|default:'' }}" required placeholder="e.g. Wireless Headphones">
+                </div>
+
+                <!-- Price -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Price (R)</label>
+                    <div class="input-group">
+                        <span class="input-group-text">R</span>
+                        <input type="number" step="0.01" name="price" min="0.00" class="form-control" 
+                               value="{{ product.price|default:'' }}" required placeholder="0.00">
+                    </div>
+                </div>
+
+                <!-- Stock Quantity -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Stock Quantity</label>
+                    <input type="number" name="stock" min="0" class="form-control" 
+                           value="{{ product.stock|default:'' }}" required placeholder="0">
+                </div>
+
+                <!-- Description -->
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Description</label>
+                    <textarea name="description" class="form-control" rows="4" 
+                              placeholder="Tell buyers about your product...">{{ product.description|default:'' }}</textarea>
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-flex justify-content-between">
+                    <a href="{% if product %}{% url 'shopperz:store_detail' product.store.id %}
+                                {% else %}{% url 'shopperz:store_detail' store.id %}
+                                {% endif %}" 
+                       class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn btn-success px-4">
+                        {% if product %}Update Product{% else %}Save Product{% endif %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

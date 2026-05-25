@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Product Catalog{% endblock %}
+
+{% block content %}
+<body>
+    <h1>Product Catalog</h1>
+
+    {% if products %}
+        <table border="1" cellpadding="10" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Stock Available</th>
+                    {% if user.is_authenticated %}
+                        <th>Add to Cart</th>
+                    {% endif %}
+                    <th>View Product Page</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.description }}</td>
+                        <td>R{{ product.price }}</td>
+                        <td>{{ product.stock }}</td>
+                        {% if user.is_authenticated %}
+                            <td>
+                                <form method="POST" action="{% url 'shopperz:add_to_cart' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="item_id" value="{{ product.id }}">
+                                    <input type="number" name="quantity" value="1" min="1" style="width: 50px;" />
+                                    <button type="submit">Add</button>
+                                </form>
+                            </td>
+                        {% endif %}
+                        <td>
+                            <form method="POST" action="{% url 'shopperz:product_page' product.name %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="product" value="{{ product.name }}">
+                                <button type="submit">Details</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No products available.</p>
+    {% endif %}
+{% endblock %}

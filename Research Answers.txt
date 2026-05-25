@@ -1,0 +1,105 @@
+Answers for questions in practical task 2 in Ecommerce - Part 1
+
+1. Explain what the Python request module is and how it is used to make HTTP requests.
+-----------------------------------------
+The Python Requests module is a popular, third-party HTTP library designed to make sending
+web requests "human-friendly" and straightforward. It abstracts the complexities of
+networking—like manual query string building or form-encoding—behind an intuitive API.
+
+Key Features:
+- Simple Syntax: Uses intuitive methods named after HTTP verbs (GET, POST, etc.).
+- Automatic Decoding: Effortlessly handles JSON and text responses.
+- Session Management: Maintains cookies and headers across multiple requests through Session    objects.
+- Built-in Security: Automatically verifies SSL certificates and supports various   authentication methods. 
+****************************************
+
+2. JSON and XML formats - Documented findings, what they are used for. 
+----------------------------------------
+JSON (JavaScript Object Notation)
+
+JSON is a lightweight data interchange format based on a subset of the JavaScript language.
+It represents data as key-value pairs and ordered lists (arrays). 
+
+Primary Uses:
+- RESTful APIs: The standard format for transmitting data between web servers and clients.
+- Configuration Files: Used in modern software like VS Code and Docker to manage settings.
+- NoSQL Databases: Databases like MongoDB store data directly in JSON-like formats. 
+
+Advantages: 	                                
+1. Lightweight: Smaller file sizes lead to faster transmission and lower bandwidth costs.	
+2. Fast Parsing: Significantly quicker for computers to process than XML.	
+3. Human Readable: Simple syntax that is easy for developers to write and debug.	
+4. Native JS Support: Integrates seamlessly with web browsers and JavaScript applications.
+
+Disadvantages:
+1. No Built-in Validation: Lacks native schema enforcement like XML's DTD/XSD.
+2. Limited Data Types: Does not natively support complex types like dates or binary data.
+3. No Comments: Standard JSON does not support internal documentation or annotations.
+4. Security Risks: Susceptible to injection attacks if input is not strictly validated.
+
+XML (Extensible Markup Language) 
+
+XML is a versatile markup language that provides a formal set of rules for defining data. It
+uses custom tags to describe the structure and meaning of information in a tree-like
+hierarchy. 
+
+Primary Uses:
+- Complex Document Formats: Powering file types like Microsoft Word (.docx) and Excel (.xlsx).
+- Legacy Systems: Commonly used in SOAP-based web services and older enterprise integrations.
+- Graphic Design: Used in Scalable Vector Graphics (SVG) to define two-dimensional graphics. 
+
+Advantages: 	
+1. Extensible: Allows users to create their own tags to describe specialized data.	
+2. Strict Validation: Robust schema support (XSD/DTD) ensures data integrity and
+    correctness.	
+3. Self-Describing: Embedded metadata makes it highly descriptive for complex hierarchies.	
+4. Supports Comments: Allows developers to add annotations directly inside the file.	
+
+Disadvantages:
+1. Verbose: Uses opening and closing tags, leading to much larger file sizes than JSON.
+2. Complex Parsing: Requires more CPU and memory to process due to structural complexity.
+3. Harder to Read: Tag-heavy structure can be cumbersome for humans to scan quickly.
+4. Security Vulnerabilities: High risk for XML External Entity (XXE) attacks if not secured.
+****************************************
+
+3. Brief explanation of Restful API, how does it works and what it's used for.
+    Give four Advantages and Disadvantages.
+-----------------------------------------
+How It Works:
+REST treats everything as a resource (like a user, a photo, or a post), which is identified
+by a unique URL (Endpoint). To interact with these resources, you use standard HTTP methods:
+    - GET: Retrieve a resource.
+    - POST: Create a new resource.
+    - PUT/PATCH: Update an existing resource.
+    - DELETE: Remove a resource.
+Because it is stateless, the server doesn't remember previous requests; every single request
+from the client must contain all the information (like API keys or tokens) needed to
+understand and process it.
+
+What It Is Used For:
+    - Web & Mobile Apps: Connecting a front-end interface to a back-end database.
+    - Microservices: Allowing different parts of a large software system to talk to each
+        other.
+    - Public Data Access: Enabling third-party developers to integrate services like Google
+        Maps or Twitter into their own apps.
+    - Cloud Integration: Managing cloud resources and automation tasks.
+
+Advantages and Disadvantages
+
+Advantages:	
+1. Scalability: The separation of client and server allows them to be scaled independently.
+2. Flexibility: Can handle various data formats (JSON, XML, etc.), though JSON is the most
+common.	
+3. Performance: Supports caching, which reduces server load and speeds up response times for
+users.
+4. Platform Independence: Can be called from any programming language or OS that supports HTTP.
+
+Disadvantages:
+Over-fetching/Under-fetching: You often get more data than you need, or have to make multiple
+requests for one task.
+2. Statelessness Overhead: Since no state is stored, every request must include repetitive
+data like authentication tokens.
+3. No Standard Contract: Unlike SOAP, there is no strict "built-in" way to define the API
+    structure, making documentation critical.
+4. Security: Because they are easily accessible over the web, they require robust manual
+    implementation of security (HTTPS, OAuth).

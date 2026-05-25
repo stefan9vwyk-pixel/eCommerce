@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Are you sure?</h2>
+<p>You are about to delete <strong>{{ store.name }}</strong>. This will also delete all products in this store.</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+    <a href="{% url 'shopperz:vendor_dashboard' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

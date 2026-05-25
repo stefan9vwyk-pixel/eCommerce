@@ -1,0 +1,28 @@
+Planning for eCommerce app
+
+Create 2 types of user groups:
+    Vender : 
+        Stores :
+            Can create, view, edit and remove Stores
+        Products :
+            Can add, remove, edit and view products in the Stores
+
+    Buyers :
+        Products :
+            Can view products for different stores, add to cart and check out
+        Reviews : 
+            Can leave reviews of product (verified or unverified)
+            Verified : If user has purchased product, the review is verified
+            Unverified  : If user has not purchased product before, he review is unverified
+
+Sessions : To keep track of user login and the items in their cart
+
+Email : 
+    Invoice email : 
+        When user checks out their cart, an invoice need to be built and sent to user via
+        email.
+    Password recovery : Email containing a link to change password.
+
+Permissions : Give Vendors and users specific permissions to prevent them from using certain
+    views
+        

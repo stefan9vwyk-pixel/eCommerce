@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card p-4 shadow-sm mx-auto" style="max-width: 600px;">
+        <h2>{% if store %}Update{% else %}Create{% endif %} Store</h2>
+        <form method="POST" onsubmit="this.querySelector('button').disabled=true;">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">Store Name</label>
+                <input type="text" name="name" class="form-control" value="{{ store.name }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea name="description" class="form-control" rows="4">{{ store.description }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Save Store</button>
+            <a href="{% url 'shopperz:vendor_dashboard' %}" class="btn btn-link">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

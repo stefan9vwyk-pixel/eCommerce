@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <!-- Content for Logged-in users-->
+        <h2>Welcome back, {{ user.username }}!</h2>
+        <p>You are already signed in.</p>
+        
+        <div style="margin-top: 20px;">
+            {% if user.groups.all.0.name == 'Vendors' %}
+                <a href="{% url 'shopperz:vendor_dashboard' %}">
+                    <button>Go to Vendor Dashboard</button>
+                </a>
+            {% else %}
+                <a href="{% url 'shopperz:main_cart_page' %}">
+                    <button>Go to Cart</button>
+                </a>
+            {% endif %}
+            <form action="{% url 'store_front:logout' %}" method="POST" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+
+    {% else %}
+        <h2>Login</h2>
+
+        <!-- This form sends login info to the backend using POST -->
+        <form method="POST" action="{% url 'store_front:login' %}">
+            {% csrf_token %}  <!-- Security token to prevent hacking -->
+
+            <!-- Username input -->
+            <label for="username">Username:</label>
+            <input type="text" name="username" required><br><br>
+
+            <!-- Password input -->
+            <label for="password">Password:</label>
+            <input type="password" name="password" required><br><br>
+
+            <!-- Submit button -->
+            <button type="submit">Login</button>
+        </form>
+
+        <!-- If there's an error (like wrong password), show it -->
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+
+        <!-- Link to reset password page -->
+        <p style="margin-top: 10px;">
+            <a href="{% url 'store_front:request_password_reset' %}">Forgot your password?</a>
+        </p>
+
+        <!-- Link to registration page -->
+        <div style="margin-top: 20px;">
+            <p>Don't have an account?
+                <a href="{% url 'store_front:register' %}">
+                    <button>Register here</button>
+                </a>
+            </p>
+        </div>
+    {% endif %}
+{% endblock %}

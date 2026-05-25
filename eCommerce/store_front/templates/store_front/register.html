@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Shopperz{% endblock %}
+
+{% block content %}
+    <h2>Register An Account</h2>
+
+    <!-- This form sends registration info to the backend -->
+    <form method="POST" action="{% url 'store_front:register' %}">
+        {% csrf_token %}  <!-- Protects against cross-site attacks -->
+
+        <!-- New username input -->
+        <label for="username">Username:</label>
+        <input type="text" name="username" required><br><br>
+
+        <!-- Email address input -->
+        <label for="email">Email:</label>
+        <input type="email" name="email" required><br><br>
+
+        <!-- Password input -->
+        <label for="password">Password:</label>
+        <input type="password" name="password" required><br><br>
+
+        <!-- Password Confirmation -->
+        <label for="conf_password">Confirm Password:</label>
+        <input type="password" name="conf_password" required><br><br>
+
+        <label for="account_type">Choose an Account type:</label>
+        <select name="account_type" id="account_type">
+            <option value="vendor">Vendor</option>
+            <option value="buyer">Buyer</option>
+        </select>
+
+        <!-- Submit button -->
+        <button type="submit">Register</button>
+    </form>
+
+    <!-- Error message display -->
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <!-- Link to login page -->
+    <p>Already have an account? <a href="{% url 'store_front:login' %}">Login here</a></p>
+{% endblock %}
